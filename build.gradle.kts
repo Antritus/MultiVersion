@@ -71,6 +71,10 @@ dependencies {
 	runtimeOnly(project(":v1_20_R4"))
 }
 
+tasks.withType<JavaCompile>().configureEach {
+	options.release.set(8)
+}
+
 tasks.assemble {
 	dependsOn(tasks.shadowJar)
 }
@@ -103,18 +107,35 @@ publishing {
 // Configure plugin.yml generation
 // - name, version, and description are inherited from the Gradle project.
 bukkitPluginYaml {
-	main = "bet.astral.multiversion.MultiVersionPlugin"
+	main = "bet.astral.multiversion.Plugin"
 	load = BukkitPluginYaml.PluginLoadOrder.STARTUP
 	authors.add("Laakkonen A.")
-	apiVersion = "1.17"
+	apiVersion = "1.13"
 }
 
 paperPluginYaml {
-	main = "bet.astral.multiversion.MultiVersionPlugin"
+	main = "bet.astral.multiversion.Plugin"
 	authors.add("Laakkonen A.")
 	apiVersion = "1.17"
 }
 
 tasks.runServer {
-	minecraftVersion("1.8.8")
+	minecraftVersion("1.13.2")
+}
+tasks.register("run1_21_11", RunServer::class) {
+	minecraftVersion("1.21.11")
+	pluginJars.from(tasks.shadowJar.flatMap { it.archiveFile })
+	runDirectory = layout.projectDirectory.dir("run1_21_11")
+	systemProperties["Paper.IgnoreJavaVersion"] = true
+}
+
+tasks.register("run1_13_2", RunServer::class) {
+	minecraftVersion("1.13.2")
+	pluginJars.from(tasks.shadowJar.flatMap { it.archiveFile })
+	runDirectory = layout.projectDirectory.dir("run1_13_2")
+	javaLauncher.set(
+		javaToolchains.launcherFor {
+			languageVersion.set(JavaLanguageVersion.of(8))
+		}
+	)
 }

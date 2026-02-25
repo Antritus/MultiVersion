@@ -52,6 +52,7 @@ public class VersionFetcher {
 
 	@SuppressWarnings("JavaReflectionMemberAccess")
 	public static @NotNull String getMinecraftVersion() {
+
 		try {
 			Method method = Bukkit.class.getMethod("getMinecraftVersion");
 			method.setAccessible(true);

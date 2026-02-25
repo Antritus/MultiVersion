@@ -9,3 +9,7 @@ dependencies {
 
 	compileOnly(files("../libs/spigot-1.10.2.jar"))
 }
+
+tasks.withType<JavaCompile>().configureEach {
+	options.release.set(8)
+}

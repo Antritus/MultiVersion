@@ -1,8 +1,5 @@
-package bet.astral.aura;
+package bet.astral.multiversion;
 
-import bet.astral.multiversion.Version;
-import bet.astral.multiversion.VersionFetcher;
-import bet.astral.multiversion.VersionHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -23,7 +20,7 @@ public class Plugin extends JavaPlugin implements Listener {
 	public void sendVersion(@NotNull CommandSender sender) {
 		Version version = versionHandler.getVersion();
 		sender.sendMessage("---- Server ----");
-		sendInfo(sender, "Minecraft Version", Bukkit.getMinecraftVersion());
+		sendInfo(sender, "Minecraft Version", VersionFetcher.getMinecraftVersion());
 		sendInfo(sender, "Bukkit Version", Bukkit.getBukkitVersion());
 		sender.sendMessage("---- Aura Provider ----");
 		sendInfo(sender, "Minium Version", version.miniumVersion());
@@ -33,7 +30,7 @@ public class Plugin extends JavaPlugin implements Listener {
 		sendInfo(sender, "Legacy Version", version.legacyVersion());
 
 		sender.sendMessage("---- Author(s) ----");
-		this.getPluginMeta().getAuthors().forEach(author->{
+		this.getDescription().getAuthors().forEach(author->{
 			sender.sendMessage(" - " + author);
 		});
 	}
@@ -47,14 +44,14 @@ public class Plugin extends JavaPlugin implements Listener {
 		versionHandler = VersionFetcher.fetch("bet.astral.multiversion.hooks");
 		if (versionHandler == null) {
 			getLogger().severe("");
-			getLogger().severe(getName() + "("+getPluginMeta().getVersion()+") does not support the server version! (" + Bukkit.getMinecraftVersion()+")");
+			getLogger().severe(getName() + "("+getDescription().getVersion()+") does not support the server version! (" + Bukkit.getMinecraftVersion()+")");
 			getLogger().severe("");
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
 
 		getServer().getCommandMap().register("multiversion",
-			new Command("version") {
+			new Command("mversion") {
 				@Override
 				public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String @NotNull [] args) {
 					sendVersion(sender);
@@ -62,7 +59,7 @@ public class Plugin extends JavaPlugin implements Listener {
 				}
 			});
 
-		getLogger().info(getName() + "("+getPluginMeta().getVersion()+") has enabled!");
+		getLogger().info(getName() + "("+getDescription().getVersion()+") has enabled!");
 	}
 	@Override
 	public void onDisable() {

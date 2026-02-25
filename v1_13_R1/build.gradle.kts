@@ -9,3 +9,7 @@ dependencies {
 
 	compileOnly(files("../libs/spigot-1.13.jar"))
 }
+
+tasks.withType<JavaCompile>().configureEach {
+	options.release.set(8)
+}
