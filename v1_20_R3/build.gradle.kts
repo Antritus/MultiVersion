@@ -11,6 +11,5 @@ dependencies {
 
 
 tasks.withType<JavaCompile>().configureEach {
-  // Override release for newer MC
   options.release = 21
 }

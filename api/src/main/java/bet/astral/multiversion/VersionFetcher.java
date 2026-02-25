@@ -6,15 +6,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
-public class ClassFetcher {
+public class VersionFetcher {
 
 	public static @Nullable VersionHandler fetch(String packageName) {
 		ClassGraph classGraph = new ClassGraph()
 			.enableAllInfo()
 			.acceptPackages(packageName);
-
-		String minecraftVersion = Bukkit.getMinecraftVersion();
+		String minecraftVersion = getMinecraftVersion();
 
 		try (ScanResult scanResult = classGraph.scan()) {
 
@@ -50,6 +50,24 @@ public class ClassFetcher {
 		return null;
 	}
 
+	@SuppressWarnings("JavaReflectionMemberAccess")
+	public static @NotNull String getMinecraftVersion() {
+		try {
+			Method method = Bukkit.class.getMethod("getMinecraftVersion");
+			method.setAccessible(true);
+			return method.invoke(null).toString();
+		} catch (NoSuchMethodException e) {
+			String bukkitVersion = Bukkit.getVersion();
+			int mcIndex = bukkitVersion.indexOf("MC: ");
+			if (mcIndex != -1) {
+				return bukkitVersion.substring(mcIndex + 4, bukkitVersion.length() - 1);
+			}
+			throw new IllegalStateException("The given minecraft version could not be determined");
+		} catch (InvocationTargetException | IllegalAccessException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	public static @NotNull VersionHandler handle(@NotNull ClassInfo classInfo) {
 		try {
 			return (VersionHandler)
@@ -66,6 +84,9 @@ public class ClassFetcher {
 	}
 
 	public static String getLegacyInternalVersion() {
+		Class<?> clazz = Bukkit.getServer().getClass();
+
+
 		return Bukkit.getServer()
 			.getClass()
 			.getPackage()
@@ -74,7 +95,7 @@ public class ClassFetcher {
 	}
 
 	public static boolean isLegacyVersioning() {
-		return isLegacyVersioning(Bukkit.getMinecraftVersion());
+		return isLegacyVersioning(getMinecraftVersion());
 	}
 
 	public static boolean isLegacyVersioning(String version) {

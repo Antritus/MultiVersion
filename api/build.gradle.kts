@@ -2,8 +2,12 @@ plugins {
 	`my-conventions`
 }
 
+repositories {
+	maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+}
+
 dependencies {
-	compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
+	compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
 	compileOnly("org.jetbrains:annotations:24.0.0")
 	compileOnly("io.github.classgraph:classgraph:4.8.184")
 }

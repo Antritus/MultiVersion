@@ -17,8 +17,18 @@ repositories {
 	maven("https://jitpack.io")
 }
 
+allprojects {
+	repositories {
+		mavenCentral()
+
+		maven("https://repo.papermc.io/repository/maven-public/")
+
+		maven("https://libraries.minecraft.net/")
+	}
+}
+
 dependencies {
-	compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
+	compileOnly("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
 
 	compileOnly("com.github.AstralLiteratureClub:MoreForJava:1.0.2")
 	compileOnly("com.github.AstralLiteratureClub:MessageManager:2.4.1")
@@ -29,6 +39,9 @@ dependencies {
 
 	// Shade the reobf variant
 
+	runtimeOnly(project(":v1_8_R1"))
+	runtimeOnly(project(":v1_8_R2"))
+	runtimeOnly(project(":v1_8_R3"))
 	runtimeOnly(project(":v1_9_R1"))
 	runtimeOnly(project(":v1_9_R2"))
 	runtimeOnly(project(":v1_10_R1"))
@@ -98,85 +111,10 @@ bukkitPluginYaml {
 
 paperPluginYaml {
 	main = "bet.astral.multiversion.MultiVersionPlugin"
-	bootstrapper = "bet.astral.multiversion.MultiVersionBootstrap"
 	authors.add("Laakkonen A.")
 	apiVersion = "1.17"
 }
 
 tasks.runServer {
-	minecraftVersion("1.21")
-}
-
-tasks.register("run1_21_11", RunServer::class) {
-	minecraftVersion("1.21.11")
-	pluginJars.from(tasks.shadowJar.flatMap { it.archiveFile })
-	runDirectory = layout.projectDirectory.dir("run1_21_11")
-	systemProperties["Paper.IgnoreJavaVersion"] = true
-}
-tasks.register("run1_21_10", RunServer::class) {
-	minecraftVersion("1.21.10")
-	pluginJars.from(tasks.shadowJar.flatMap { it.archiveFile })
-	runDirectory = layout.projectDirectory.dir("run1_21_10")
-	systemProperties["Paper.IgnoreJavaVersion"] = true
-}
-tasks.register("run1_21_9", RunServer::class) {
-	minecraftVersion("1.21.9")
-	pluginJars.from(tasks.shadowJar.flatMap { it.archiveFile })
-	runDirectory = layout.projectDirectory.dir("run1_21_9")
-	systemProperties["Paper.IgnoreJavaVersion"] = true
-}
-tasks.register("run1_21_8", RunServer::class) {
-	minecraftVersion("1.21.8")
-	pluginJars.from(tasks.shadowJar.flatMap { it.archiveFile })
-	runDirectory = layout.projectDirectory.dir("run1_21_8")
-	systemProperties["Paper.IgnoreJavaVersion"] = true
-}
-tasks.register("run1_21_7", RunServer::class) {
-	minecraftVersion("1.21.7")
-	pluginJars.from(tasks.shadowJar.flatMap { it.archiveFile })
-	runDirectory = layout.projectDirectory.dir("run1_21_7")
-	systemProperties["Paper.IgnoreJavaVersion"] = true
-}
-tasks.register("run1_21_6", RunServer::class) {
-	minecraftVersion("1.21.6")
-	pluginJars.from(tasks.shadowJar.flatMap { it.archiveFile })
-	runDirectory = layout.projectDirectory.dir("run1_21_6")
-	systemProperties["Paper.IgnoreJavaVersion"] = true
-}
-tasks.register("run1_21_5", RunServer::class) {
-	minecraftVersion("1.21.5")
-	pluginJars.from(tasks.shadowJar.flatMap { it.archiveFile })
-	runDirectory = layout.projectDirectory.dir("run1_21_5")
-	systemProperties["Paper.IgnoreJavaVersion"] = true
-}
-tasks.register("run1_21_4", RunServer::class) {
-	minecraftVersion("1.21.4")
-	pluginJars.from(tasks.shadowJar.flatMap { it.archiveFile })
-	runDirectory = layout.projectDirectory.dir("run1_21_4")
-	systemProperties["Paper.IgnoreJavaVersion"] = true
-}
-tasks.register("run1_21_3", RunServer::class) {
-	minecraftVersion("1.21.3")
-	pluginJars.from(tasks.shadowJar.flatMap { it.archiveFile })
-	runDirectory = layout.projectDirectory.dir("run1_21_3")
-	systemProperties["Paper.IgnoreJavaVersion"] = true
-}
-tasks.register("run1_21_1", RunServer::class) {
-	minecraftVersion("1.21.1")
-	pluginJars.from(tasks.shadowJar.flatMap { it.archiveFile })
-	runDirectory = layout.projectDirectory.dir("run1_21_1")
-	systemProperties["Paper.IgnoreJavaVersion"] = true
-}
-tasks.register("run1_21", RunServer::class) {
-	minecraftVersion("1.21")
-	pluginJars.from(tasks.shadowJar.flatMap { it.archiveFile })
-	runDirectory = layout.projectDirectory.dir("run1_21")
-	systemProperties["Paper.IgnoreJavaVersion"] = true
-}
-
-tasks.register("run1_20_6", RunServer::class) {
-	minecraftVersion("1.20.6")
-	pluginJars.from(tasks.shadowJar.flatMap { it.archiveFile })
-	runDirectory = layout.projectDirectory.dir("run1_20_6")
-	systemProperties["Paper.IgnoreJavaVersion"] = true
+	minecraftVersion("1.8.8")
 }

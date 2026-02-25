@@ -2,6 +2,7 @@ package bet.astral.multiversion.hooks.v1_19_R1;
 
 import bet.astral.multiversion.Version;
 import bet.astral.multiversion.VersionHandler;
+import org.bukkit.craftbukkit.v1_19_R1.CraftServer;
 
 @Version(
 	internalVersion = "v1_19_R1",

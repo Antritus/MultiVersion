@@ -6,6 +6,9 @@ rootProject.name = "multiversion"
 
 include("api")
 
+include("v1_8_R1")
+include("v1_8_R2")
+include("v1_8_R3")
 // 1.9
 include("v1_9_R1")
 // 1.9.3
